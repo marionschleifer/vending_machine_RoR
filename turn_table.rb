@@ -2,24 +2,26 @@ require_relative 'section'
 
 class TurnTable
 
-  def initialize
+  attr_reader :sections
+
+  def initialize(positions)
     @open = false
     @sections = []
-    16.times do
+    positions.times do
       @sections << Section.new
     end
   end
 
-  def open
+  def lock
+    @open = false
+  end
+
+  def unlock
     @open = true
   end
 
   def turnable?
-    if @open == false
-      true
-    else 
-      false
-    end
+    !@open
   end
 
 end
