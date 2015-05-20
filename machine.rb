@@ -1,40 +1,24 @@
 require_relative 'turn_table'
 
 class Machine
-  attr_reader :rows
+  attr_reader :turn_tables
   attr_reader :current_position
 
   def initialize(rows, positions)
-    @rows = []
     @max_positions = positions
     @current_position = 1
-    rows.times { @rows << TurnTable.new(positions) }
+    @turn_tables = (1..rows).map { TurnTable.new(positions) }
   end
 
   def turn
-    if turnable?
-      true
-      rotate_position
-      true
-    else
-      false
-    end
+    return false unless turnable?
+    rotate_position
   end
 
   private
 
   def turnable?
-    counter_turnable_turntables = 0
-    @rows.each do |row|
-      if row.turnable?
-        counter_turnable_turntables += 1
-      end
-    end
-    if counter_turnable_turntables == @rows.count
-      true
-    else
-      false
-    end
+    @turn_tables.all?(&:turnable?)
   end
 
   def rotate_position

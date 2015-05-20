@@ -18,7 +18,7 @@ class MachineTest < MiniTest::Test
   end
 
    def test_only_turn_if_all_turntables_are_closed
-  	@machine.rows[2].unlock
+  	@machine.turn_tables[2].unlock
   	assert_equal(false, @machine.turn)
   end
 
