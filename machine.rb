@@ -12,13 +12,8 @@ class Machine
   end
 
   def turn
-    counter_turnable_turntables = 0
-    @rows.each do |row|
-      if row.turnable?
-        counter_turnable_turntables += 1
-      end
-    end
-    if counter_turnable_turntables == @rows.count
+    if turnable?
+      true
       rotate_position
       true
     else
@@ -27,6 +22,20 @@ class Machine
   end
 
   private
+
+  def turnable?
+    counter_turnable_turntables = 0
+    @rows.each do |row|
+      if row.turnable?
+        counter_turnable_turntables += 1
+      end
+    end
+    if counter_turnable_turntables == @rows.count
+      true
+    else
+      false
+    end
+  end
 
   def rotate_position
     if @current_position < @max_positions
