@@ -18,7 +18,8 @@ class TurnTable
 
   def unlock
     @open = true
-  end
+    @sections[i].remove_article #kann ich das so machen? in der Beschreibung steht ja, dass
+  end                            #wenn man es oeffnet, die Ware als verkauft gilt.
 
   def turnable?
     !@open
