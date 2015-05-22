@@ -13,8 +13,8 @@ class TurnTable
     end
   end
 
-  def turn(current_position)
-    @current_position += 1
+  def position(value)
+    @current_position
   end
 
   def lock

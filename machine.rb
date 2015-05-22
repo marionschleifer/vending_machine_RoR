@@ -13,7 +13,7 @@ class Machine
   def turn
     return false unless turnable?
     rotate_position
-    @turn_tables.each { |turn_table| turn_table.turn(@current_position) }
+    @turn_tables.each { |turn_table| turn_table.position(@current_position) }
   end
 
   private
@@ -30,3 +30,6 @@ class Machine
     end
   end
 end
+
+machine = Machine.new(7, 16)
+puts machine.turn
