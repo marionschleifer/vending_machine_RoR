@@ -13,6 +13,7 @@ class Machine
   def turn
     return false unless turnable?
     rotate_position
+    @turn_tables.each { |turn_table| turn_table.turn(@current_position) }
   end
 
   private

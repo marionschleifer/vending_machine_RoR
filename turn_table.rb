@@ -6,10 +6,15 @@ class TurnTable
 
   def initialize(positions)
     @open = false
+    @current_position = 1
     @sections = []
     positions.times do
       @sections << Section.new
     end
+  end
+
+  def turn(current_position)
+    @current_position += 1
   end
 
   def lock
@@ -18,8 +23,8 @@ class TurnTable
 
   def unlock
     @open = true
-    @sections[i].remove_article #kann ich das so machen? in der Beschreibung steht ja, dass
-  end                            #wenn man es oeffnet, die Ware als verkauft gilt.
+    @sections[@current_position].remove_article
+  end
 
   def turnable?
     !@open
