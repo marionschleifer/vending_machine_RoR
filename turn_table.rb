@@ -1,4 +1,5 @@
 require_relative 'section'
+require 'date'
 
 class TurnTable
 
@@ -7,6 +8,7 @@ class TurnTable
   def initialize(positions)
     @open = false
     @current_position = 1
+    @status_light = 'off'
     @sections = []
     positions.times do
       @sections << Section.new
@@ -28,6 +30,17 @@ class TurnTable
 
   def turnable?
     !@open
+  end
+
+#later: link to method "add_article"
+  def set_status_light(expiry_date)
+    if Date.today <= expiry_date
+      @status_light = 'green'
+    elsif Date.today > expiry_date
+      @status_light = 'red'
+    else
+      @status_light = 'off'
+    end
   end
 
 end

@@ -1,5 +1,7 @@
 class Article
 
+  attr_reader :expiry_date
+
   def initialize(name, price, expiry_date)
     @name = name
     @price = price
