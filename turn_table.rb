@@ -1,22 +1,21 @@
 require_relative 'section'
-require 'date'
+require_relative 'statistic_log'
 
 class TurnTable
 
   attr_reader :sections
 
-  def initialize(positions)
+  def initialize(positions, statistic_log)
     @open = false
     @current_position = 1
-    @status_light = 'off'
     @sections = []
     positions.times do
-      @sections << Section.new
+      @sections << Section.new(statistic_log)
     end
   end
 
-  def position(value)
-    @current_position
+  def current_position=(current_position)
+    @current_position = current_position
   end
 
   def lock
@@ -32,15 +31,18 @@ class TurnTable
     !@open
   end
 
-#later: link to method "add_article"
-  def set_status_light(expiry_date)
-    if Date.today <= expiry_date
-      @status_light = 'green'
-    elsif Date.today > expiry_date
-      @status_light = 'red'
-    else
-      @status_light = 'off'
-    end
+  def current_section
+    @sections[@current_position]
+  end
+
+  def current_article
+    current_section.article
+  end
+
+  def status_light
+    return :off if current_section.empty?
+    return :red if current_article.expiry_date_exceeded?
+    return :green
   end
 
 end

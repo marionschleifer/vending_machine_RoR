@@ -4,7 +4,7 @@ require 'minitest/autorun'
 
 class MachineTest < MiniTest::Test
   def setup
-    @machine = Machine.new(7, 16)
+    @machine = Machine.new(7, 16, StatisticLog.new)
   end
 
   def test_turn_3_times
@@ -18,6 +18,7 @@ class MachineTest < MiniTest::Test
   end
 
    def test_only_turn_if_all_turntables_are_closed
+    @machine.turn_tables[2].current_section.add_article(Article.new('Mars', 1.2, Date.new(2016, 1, 1)))
   	@machine.turn_tables[2].unlock
   	assert_equal(false, @machine.turn)
   end

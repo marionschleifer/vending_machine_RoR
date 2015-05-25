@@ -1,19 +1,21 @@
 require_relative 'turn_table'
+require_relative 'statistic_log'
 
 class Machine
   attr_reader :turn_tables
   attr_reader :current_position
 
-  def initialize(rows, positions)
+  def initialize(rows, positions, statistic_log)
+    @statistic_log = StatisticLog.new
     @max_positions = positions
     @current_position = 1
-    @turn_tables = (1..rows).map { TurnTable.new(positions) }
+    @turn_tables = (1..rows).map { TurnTable.new(positions, statistic_log) }
   end
 
   def turn
     return false unless turnable?
     rotate_position
-    @turn_tables.each { |turn_table| turn_table.position(@current_position) }
+    @turn_tables.each { |turn_table| turn_table.current_position = @current_position }
   end
 
   private
@@ -30,6 +32,3 @@ class Machine
     end
   end
 end
-
-machine = Machine.new(7, 16)
-puts machine.turn
