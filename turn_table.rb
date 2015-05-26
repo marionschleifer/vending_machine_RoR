@@ -1,16 +1,14 @@
 require_relative 'section'
-require_relative 'statistic_log'
 
 class TurnTable
-
   attr_reader :sections
 
-  def initialize(positions, statistic_log)
+  def initialize(positions)
     @open = false
     @current_position = 1
     @sections = []
     positions.times do
-      @sections << Section.new(statistic_log)
+      @sections << Section.new
     end
   end
 
@@ -24,7 +22,7 @@ class TurnTable
 
   def unlock
     @open = true
-    @sections[@current_position].remove_article
+    current_section.remove_article
   end
 
   def turnable?
@@ -42,7 +40,6 @@ class TurnTable
   def status_light
     return :off if current_section.empty?
     return :red if current_article.expiry_date_exceeded?
-    return :green
+    :green
   end
-
 end

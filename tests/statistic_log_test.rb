@@ -7,7 +7,7 @@ require 'minitest/autorun'
 class StatisticLogTest < MiniTest::Test
 
   def setup
-    @statistic_log = StatisticLog.new
+    @statistic_log = StatisticLog.instance
     @expiry_date = Date.new(2015, 12, 31)
     @start_date = Date.new(2015, 01, 10)
     @sold_at = Date.new(2015, 2, 14)

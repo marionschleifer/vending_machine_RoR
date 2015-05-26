@@ -4,7 +4,7 @@ require 'minitest/autorun'
 
 class MachineTest < MiniTest::Test
   def setup
-    @machine = Machine.new(7, 16, StatisticLog.new)
+    @machine = Machine.new(7, 16)
   end
 
   def test_turn_3_times

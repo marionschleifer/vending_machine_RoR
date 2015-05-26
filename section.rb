@@ -6,8 +6,7 @@ class Section
 
   attr_reader :article
 
-  def initialize(statistic_log)
-    @statistic_log = statistic_log
+  def initialize
     @article = nil
     @sold_at = nil
   end
@@ -16,8 +15,8 @@ class Section
     @article = article
   end
 
-  def remove_article
-    @statistic_log.add_sold_article(@article, @sold_at)
+  def remove_article #if article present
+    StatisticLog.instance.add_sold_article(@article, @sold_at)
     @article = nil
   end
 
