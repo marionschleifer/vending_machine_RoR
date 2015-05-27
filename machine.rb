@@ -1,10 +1,11 @@
 require_relative 'turn_table'
+require_relative 'coin_slot'
 
 class Machine
-  attr_reader :turn_tables
-  attr_reader :current_position
+  attr_reader :turn_tables, :current_position, :coin_slot
 
   def initialize(rows, positions)
+    @coin_slot = CoinSlot.new
     @max_positions = positions
     @current_position = 1
     @turn_tables = (1..rows).map { TurnTable.new(positions) }
