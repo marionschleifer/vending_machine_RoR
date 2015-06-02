@@ -51,9 +51,7 @@ class CoinStorage
   end
 
   def total
-    @total = 0
-    @coins.each { |coin, count| @total += coin * count }
-    return @total
+    @coins.inject(0) { |memo, (coin, count)| coin * count }
   end
 
   def total_per(coin_type)
