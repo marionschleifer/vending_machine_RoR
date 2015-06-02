@@ -2,13 +2,7 @@ class CoinStorage
   attr_reader :slots
 
   def initialize
-    @slots = {
-      200 => 0,
-      100 => 0,
-      50 => 0,
-      20 => 0,
-      10 => 0,
-    }
+    @slots = { 200 => 0, 100 => 0, 50 => 0, 20 => 0, 10 => 0 }
   end
 
   def sufficient_change?(change)
