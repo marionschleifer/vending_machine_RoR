@@ -60,4 +60,9 @@ class CoinStorageTest < MiniTest::Test
     assert_equal 10, @coin_storage.slot_total(10)
   end
 
+  def test_sufficient_change_edge_case
+    @coin_storage.add_coins(50, 1)
+    @coin_storage.add_coins(20, 3)
+    assert @coin_storage.sufficient_change?(60), "3x 20 vorhanden, aber 50er wird zuerst genommen"
+  end
 end
