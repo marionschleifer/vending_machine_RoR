@@ -43,4 +43,21 @@ class CoinStorageTest < MiniTest::Test
     assert_equal 50, @coin_storage.total_per(50)
   end
 
+  def test_give_change
+    @coin_storage.add_coins(50, 2)
+    @coin_storage.add_coins(20, 2)
+    @coin_storage.add_coins(10, 3)
+    assert_equal 100, @coin_storage.total_per(50)
+    assert_equal 40, @coin_storage.total_per(20)
+    assert_equal 30, @coin_storage.total_per(10)
+    @coin_storage.give_change(80)
+    assert_equal 50, @coin_storage.total_per(50)
+    assert_equal 20, @coin_storage.total_per(20)
+    assert_equal 20, @coin_storage.total_per(10)
+    @coin_storage.give_change(60)
+    assert_equal 0, @coin_storage.total_per(50)
+    assert_equal 20, @coin_storage.total_per(20)
+    assert_equal 10, @coin_storage.total_per(10)
+  end
+
 end

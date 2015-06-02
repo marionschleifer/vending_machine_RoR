@@ -24,6 +24,18 @@ class CoinStorage
   end
 
   def give_change(change)
+    returning_change = []
+    remaining_change = change
+    @coins.each do |coin, count|
+      coin_amount = (remaining_change / coin).floor
+      next if coin_amount < 1
+      coin_amount.times do
+        returning_change << coin
+        remove_change(coin, 1)
+      end
+      remaining_change -= returning_change.inject(:+)
+    end
+    change == returning_change.inject(:+)
   end
 
   def add_coins(coin_type, quantity)
