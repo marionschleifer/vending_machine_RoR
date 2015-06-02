@@ -42,6 +42,10 @@ class CoinStorage
     @coins[coin_type] += quantity
   end
 
+  def remove_coins(coin_type, quantity)
+    @coins[coin_type] -= quantity
+  end
+
   def capacity?(coin_type, quantity)
     @coins[coin_type] + quantity <= 100
   end
@@ -55,9 +59,4 @@ class CoinStorage
   def total_per(coin_type)
     coin_type * @coins[coin_type]
   end
-
-  def remove_change(coin_type, quantity)
-    @coins[coin_type] -= quantity
-  end
-
 end
