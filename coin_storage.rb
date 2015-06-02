@@ -6,30 +6,26 @@ class CoinStorage
   end
 
   def sufficient_change?(change)
-    returning_change = []
-    remaining_change = change
-    @slots.each do |coin, count|
-      coin_amount = (remaining_change / coin).floor
-      next if coin_amount < 1
-      coin_amount.times { returning_change << coin }
-      remaining_change -= returning_change.inject(:+)
-    end
-    change == returning_change.inject(:+)
+    change == calculated_change(change).inject(:+)
   end
 
   def give_change(change)
-    returning_change = []
-    remaining_change = change
-    @slots.each do |coin, count|
-      coin_amount = (remaining_change / coin).floor
-      next if coin_amount < 1
-      coin_amount.times do
-        returning_change << coin
-        remove_change(coin, 1)
-      end
-      remaining_change -= returning_change.inject(:+)
+    return unless sufficient_change?(change)
+    calculated_change(change).each do |coin|
+      remove_coins(coin, 1)
     end
-    change == returning_change.inject(:+)
+  end
+
+  def calculated_change(change)
+    [].tap do |returning_change|
+      @slots.each do |coin, count|
+        coins_required = (change / coin).floor
+        [count, coins_required].min.times do
+          returning_change << coin
+          change -= coin
+        end
+      end
+    end
   end
 
   def add_coins(coin_type, quantity)
