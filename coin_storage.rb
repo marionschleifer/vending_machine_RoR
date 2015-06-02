@@ -1,8 +1,8 @@
 class CoinStorage
-  attr_reader :coins
+  attr_reader :slots
 
   def initialize
-    @coins = {
+    @slots = {
       200 => 0,
       100 => 0,
       50 => 0,
@@ -14,7 +14,7 @@ class CoinStorage
   def sufficient_change?(change)
     returning_change = []
     remaining_change = change
-    @coins.each do |coin, count|
+    @slots.each do |coin, count|
       coin_amount = (remaining_change / coin).floor
       next if coin_amount < 1
       coin_amount.times { returning_change << coin }
@@ -26,7 +26,7 @@ class CoinStorage
   def give_change(change)
     returning_change = []
     remaining_change = change
-    @coins.each do |coin, count|
+    @slots.each do |coin, count|
       coin_amount = (remaining_change / coin).floor
       next if coin_amount < 1
       coin_amount.times do
@@ -39,22 +39,22 @@ class CoinStorage
   end
 
   def add_coins(coin_type, quantity)
-    @coins[coin_type] += quantity
+    @slots[coin_type] += quantity
   end
 
   def remove_coins(coin_type, quantity)
-    @coins[coin_type] -= quantity
+    @slots[coin_type] -= quantity
   end
 
   def capacity?(coin_type, quantity)
-    @coins[coin_type] + quantity <= 100
+    @slots[coin_type] + quantity <= 100
   end
 
   def total
-    @coins.inject(0) { |memo, (coin, count)| coin * count }
+    @slots.inject(0) { |memo, (coin, count)| coin * count }
   end
 
   def total_per(coin_type)
-    coin_type * @coins[coin_type]
+    coin_type * @slots[coin_type]
   end
 end
