@@ -45,7 +45,7 @@ class CoinStorage
   end
 
   def total
-    @slots.inject(0) { |memo, (coin, count)| coin * count }
+    @slots.inject(0) { |sum, (coin, count)| sum + coin * count }
   end
 
   def total_per(coin_type)
