@@ -9,7 +9,7 @@ class CoinStorageTest < MiniTest::Test
 
   def test_add_coins
     @coin_storage.add_coins(10, 2)
-    assert_equal 2, @coin_storage.coins[10]
+    assert_equal 2, @coin_storage.slots[10]
   end
 
   def test_capacity
@@ -39,7 +39,7 @@ class CoinStorageTest < MiniTest::Test
 
   def test_remove_coins
     @coin_storage.add_coins(50, 2)
-    @coin_storage.remove_change(50, 1)
+    @coin_storage.remove_coins(50, 1)
     assert_equal 50, @coin_storage.total_per(50)
   end
 
