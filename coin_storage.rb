@@ -1,63 +1,50 @@
 class CoinStorage
-  attr_reader :coins
+  attr_reader :slots
 
   def initialize
-    @coins = {
-      200 => 0,
-      100 => 0,
-      50 => 0,
-      20 => 0,
-      10 => 0,
-    }
+    @slots = { 200 => 0, 100 => 0, 50 => 0, 20 => 0, 10 => 0 }
   end
 
   def sufficient_change?(change)
-    returning_change = []
-    remaining_change = change
-    @coins.each do |coin, count|
-      coin_amount = (remaining_change / coin).floor
-      next if coin_amount < 1
-      coin_amount.times { returning_change << coin }
-      remaining_change -= returning_change.inject(:+)
-    end
-    change == returning_change.inject(:+)
+    change == calculated_change(change).inject(:+)
   end
 
   def give_change(change)
-    returning_change = []
-    remaining_change = change
-    @coins.each do |coin, count|
-      coin_amount = (remaining_change / coin).floor
-      next if coin_amount < 1
-      coin_amount.times do
-        returning_change << coin
-        remove_change(coin, 1)
-      end
-      remaining_change -= returning_change.inject(:+)
+    return unless sufficient_change?(change)
+    calculated_change(change).each do |coin|
+      remove_coins(coin, 1)
     end
-    change == returning_change.inject(:+)
+  end
+
+  def calculated_change(change)
+    [].tap do |returning_change|
+      @slots.each do |coin, count|
+        coins_required = (change / coin).floor
+        [count, coins_required].min.times do
+          returning_change << coin
+          change -= coin
+        end
+      end
+    end
   end
 
   def add_coins(coin_type, quantity)
-    @coins[coin_type] += quantity
+    @slots[coin_type] += quantity
+  end
+
+  def remove_coins(coin_type, quantity)
+    @slots[coin_type] -= quantity
   end
 
   def capacity?(coin_type, quantity)
-    @coins[coin_type] + quantity <= 100
+    @slots[coin_type] + quantity <= 100
   end
 
   def total
-    @total = 0
-    @coins.each { |coin, count| @total += coin * count }
-    return @total
+    @slots.inject(0) { |sum, (coin, count)| sum + coin * count }
   end
 
-  def total_per(coin_type)
-    coin_type * @coins[coin_type]
+  def slot_total(coin_type)
+    coin_type * @slots[coin_type]
   end
-
-  def remove_change(coin_type, quantity)
-    @coins[coin_type] -= quantity
-  end
-
 end
